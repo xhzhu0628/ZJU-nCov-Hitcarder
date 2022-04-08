@@ -77,7 +77,7 @@ class HitCarder(object):
         today = datetime.datetime.utcnow() + datetime.timedelta(hours=+8)
         return "%4d%02d%02d" % (today.year, today.month, today.day)
 
-    def check_form(self):
+    def check_form(self,is_pull_change=False):
         """Get hitcard form, compare with old form """
         res = self.sess.get(self.base_url)
         html = res.content.decode()
@@ -86,12 +86,14 @@ class HitCarder(object):
             new_form = re.findall(r'<ul>[\s\S]*?</ul>', html)[0]
         except IndexError as _:
             raise RegexMatchError('Relative info not found in html with regex')
-
+        if is_pull_change==True:
+            with open("form.txt", "w", encoding="utf-8") as f:
+                f.write(new_form)
+                print('new_form writed')
         with open("form.txt", "r", encoding="utf-8") as f:
             if new_form == f.read():
                 return True
-        # with open("form.txt", "w", encoding="utf-8") as f:
-        #     f.write(new_form)
+        
         return False
 
     def get_info(self, html=None):
@@ -189,6 +191,7 @@ def main(username, password):
     try:
         ret = hit_carder.check_form()
         if not ret:
+            hit_carder.check_form(is_pull_change=True)
             return 2, '打卡信息已改变，请手动打卡'
     except Exception as err:
         return 1, '获取信息失败，请手动打卡: ' + str(err)
