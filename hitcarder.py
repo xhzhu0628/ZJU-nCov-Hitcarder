@@ -147,9 +147,9 @@ class HitCarder(object):
         new_info['sfqrxxss'] = 1 # 属实
 
         #验证码识别
-        resp = self.sess.get(self.captcha_url)
-        captcha = self.ocr.classification(resp.content)
-        new_info['verifyCode'] = captcha
+        # resp = self.sess.get(self.captcha_url)
+        # captcha = self.ocr.classification(resp.content)
+        # new_info['verifyCode'] = captcha
         self.info = new_info
         # print(json.dumps(self.info))
         return new_info
