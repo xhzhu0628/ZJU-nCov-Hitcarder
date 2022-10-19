@@ -145,6 +145,7 @@ class HitCarder(object):
         new_info['sfzx'] = old_info['sfzx'] # 在校
         new_info['sfymqjczrj'] = old_info['sfymqjczrj'] # 入境
         new_info['sfqrxxss'] = 1 # 属实
+        new_info['internship'] = 1 # 没有实习
 
         #验证码识别
         # resp = self.sess.get(self.captcha_url)
